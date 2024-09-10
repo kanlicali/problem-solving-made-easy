@@ -1,12 +1,28 @@
-name: Run Nvidia-smi
+name: Machine Learning Job
+
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/machine-learning-job.yml
+
 jobs:
-  run-script:
-    runs-on:
-      group: tj-runner-group
-      labels: tj-runners
+  default:
+    runs-on: [runs-on,runner=gpu-nvidia]
     steps:
-    - name: Run nvidia smi
-    run: |
-    lscpu
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Display environment details
+        run: npx envinfo
+      - name: Display block storage
+        run: sudo lsblk -l
+      - name: Display NVIDIA SMI details
+        run: |
+          nvidia-smi
+          nvidia-smi -L
+          nvidia-smi -q -d Memory
+      - name: Ensure Docker is available
+        run: docker run hello-world
+      - name: Execute your machine learning script
+        run: echo "Running ML script..."
