@@ -1,7 +1,6 @@
 name: Run Nvidia-smi
 on:
   workflow_dispatch:
-
 jobs:
   run-script:
     runs-on:
@@ -10,4 +9,4 @@ jobs:
     steps:
     - name: Run nvidia smi
     run: |
-      lscpu
+    lscpu
